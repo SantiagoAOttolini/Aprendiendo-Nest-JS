@@ -1,0 +1,21 @@
+# Archivo docker-compose.yml para levantar PostgreSQL con Docker
+# Puedes poner este archivo en la raíz de tu proyecto
+
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16  # Imagen oficial de PostgreSQL versión 16
+    container_name: taskmanager_postgres  # Nombre del contenedor
+    restart: always  # Reinicia el contenedor si se cae
+    environment:
+      POSTGRES_USER: admin        # Usuario de la base de datos
+      POSTGRES_PASSWORD: admin    # Contraseña del usuario
+      POSTGRES_DB: taskmanagerdb  # Nombre de la base de datos
+    ports:
+      - "5432:5432"  # Expone el puerto 5432 de tu máquina local
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Guarda los datos de forma persistente
+
+volumes:
+  postgres_data:  # Volumen para persistencia de datos
