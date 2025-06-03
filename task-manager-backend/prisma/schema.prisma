@@ -1,0 +1,43 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================
+// Modelo de usuario (User)
+// =============================
+model User {
+  id             Int       @id @default(autoincrement()) // Identificador único autoincremental
+  email          String    @unique                      // Correo único del usuario
+  name           String?                               // Nombre (opcional)
+  password       String                                // Contraseña (hash)
+  emailVerified  DateTime?                             // Para Auth.js: email verificado
+  tasks          Task[]                                // Relación: un usuario, muchas tareas
+  createdAt      DateTime  @default(now())              // Fecha de creación
+  updatedAt      DateTime  @updatedAt                   // Fecha de última actualización
+}
+
+// =============================
+// Modelo de tarea (Task)
+// =============================
+model Task {
+  id          Int      @id @default(autoincrement()) // Identificador único autoincremental
+  title       String                                 // Título de la tarea
+  description String?                                // Descripción (opcional)
+  completed   Boolean  @default(false)               // Si está completada o no
+  user        User     @relation(fields: [userId], references: [id]) // Relación con usuario
+  userId      Int                                    // ID del usuario dueño
+  createdAt   DateTime @default(now())               // Fecha de creación
+  updatedAt   DateTime @updatedAt                    // Fecha de última actualización
+}

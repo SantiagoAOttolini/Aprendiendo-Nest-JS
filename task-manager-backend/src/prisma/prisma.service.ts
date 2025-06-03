@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
-import { PrismaClient } from '../../../generated/prisma';
+import { PrismaClient } from '../../generated/prisma';
 
 // PrismaService extiende PrismaClient para usarlo en toda la app
 // Implementa OnModuleInit y OnModuleDestroy para manejar la conexión
